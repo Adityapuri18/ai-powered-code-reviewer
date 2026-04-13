@@ -39,6 +39,7 @@
 }
 
 .topbar {
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -286,7 +287,7 @@ input {
 
   .sidebar {
     grid-column: 1 / -1;
-    min-height: auto;
+    min-height: 0;
   }
 }
 
@@ -307,7 +308,7 @@ input {
   .sidebar,
   .editor-panel,
   .review-panel {
-    min-height: auto;
+    min-height: 0;
   }
 
   .code textarea,

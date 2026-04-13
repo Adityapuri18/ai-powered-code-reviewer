@@ -2,12 +2,11 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const apiKey = process.env.GOOGLE_API_KEY;
 
-if (!apiKey) {
-    throw new Error('GOOGLE_API_KEY is not configured in Backend/.env');
-}
+let model;
 
-const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({
+if (apiKey) {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash",
     systemInstruction: `
                 Here’s a solid system instruction for your AI code reviewer:
@@ -83,11 +82,16 @@ const model = genAI.getGenerativeModel({
 
                 Would you like any adjustments based on your specific needs? 🚀 
     `
-});
+    });
+}
 
 
 async function generateContent(prompt) {
     try {
+        if (!model) {
+            throw new Error('GOOGLE_API_KEY is not configured in Backend/.env');
+        }
+
         const result = await model.generateContent(prompt);
         return result.response.text();
     } catch (error) {
